@@ -1,5 +1,6 @@
 ---
 name: protocol-reviewer
+version: "1.0.0"
 description: >
   Review and update clinical protocols against current evidence and national guidelines.
   Use this skill whenever a user uploads a clinical protocol, guideline, or standard operating
