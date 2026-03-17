@@ -1,0 +1,23 @@
+{
+  "skill_name": "protocol-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "This is our old ABO incompatible transplant protocol from 2009. Have a look and make suggestions how I can improve it, anything needs changing, amending. Check the latest literature on pubmed and create a fresh reference list. I'm a consultant transplant surgeon in the UK.",
+      "expected_output": "A structured .docx review document covering rituximab dosing, titre targets, antibody removal methods, immunosuppression, and monitoring. Should cross-reference BTS guidelines. Should produce a .bib file and PMID list. Recommendations should be UK-focused with BTS evidence grades.",
+      "files": ["/sessions/compassionate-wizardly-allen/mnt/aboi-protocol/ABOI TRANSPLANT PROTOCOL.pdf"]
+    },
+    {
+      "id": 2,
+      "prompt": "I've uploaded our department's perioperative anticoagulation protocol for patients on warfarin. It was last updated in 2018. Can you review it against current NICE and BSH guidelines and check what the latest evidence says? We're a district general hospital in England. Give me the pubmed IDs so I can pull the papers into zotero.",
+      "expected_output": "Review document covering bridging anticoagulation, DOACs as alternatives, perioperative INR management, reversal agents, and AF/VTE risk stratification. Should reference NICE CG and BSH guidelines. Should produce .bib and PMID list files.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "here's our unit's CMV prophylaxis protocol for solid organ transplant recipients, written in 2016. Is it still current? What does the latest evidence say about letermovir and maribavir? Check BTS and NICE guidance. Export the references for zotero please.",
+      "expected_output": "Review covering valganciclovir prophylaxis vs pre-emptive, duration, letermovir evidence in SOT, maribavir for refractory CMV, donor/recipient serostatus risk stratification. Should reference BTS guidelines and recent transplant infectious disease literature. Should produce .bib and PMID list.",
+      "files": []
+    }
+  ]
+}
