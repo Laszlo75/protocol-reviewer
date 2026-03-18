@@ -8,11 +8,12 @@ A Claude Code skill (custom prompt) that reviews clinical protocols against curr
 
 ## Repository Structure
 
-- **SKILL.md** — The skill definition (prompt). This is the main file. It defines the 7-step workflow: read protocol → identify domain → search guidelines → search evidence → cross-reference → generate review → verify references.
+- **SKILL.md** — The skill definition (prompt). This is the main file. It defines the 8-step workflow: read protocol → identify domain → search guidelines → search evidence → cross-reference → generate review → verify references → log to evaluation register.
 - **assets/reference.docx** — Pandoc reference template for .docx output (Arial, A4, navy headings, headers/footers).
 - **references/document_template.md** — Markdown template and pandoc conversion instructions for the review document.
 - **references/pubmed_strategy.md** — PubMed search construction patterns and quality assessment heuristics.
 - **evals/evals.json** — Test scenarios for the skill (ABOi transplant, perioperative anticoagulation, CMV prophylaxis).
+- **reviews/** — Local evaluation register (gitignored). Contains `evaluation_register.csv` for tracking review outcomes.
 
 ## Key Design Decisions
 
@@ -39,10 +40,24 @@ pandoc "[Protocol_Name]_Review_[Year].md" \
 
 ## Tool Dependencies
 
-- **PubMed MCP** (`search_articles`, `get_article_metadata`, `find_related_articles`)
+- **PubMed MCP** (`search_articles`, `get_article_metadata`, `get_full_text_article`, `find_related_articles`)
 - **Scholar Gateway** (`semanticSearch`)
 - **WebSearch / WebFetch** — for national guidelines
 - **pandoc** — markdown to .docx conversion
+
+## AI Use Policy (ISO 42001)
+
+**System identity:** Claude Opus 4.6 (Anthropic), accessed via Claude Desktop with PubMed and Scholar Gateway integrations. This skill requires Opus 4.6 for the clinical reasoning and evidence synthesis quality needed.
+
+**Intended use:** AI-assisted evidence synthesis to support the review of clinical protocols against current national guidelines and published literature. The system retrieves, structures, and summarises evidence; it does not make clinical decisions.
+
+**Human oversight:** All AI-generated outputs are advisory only. Every review must be critically appraised by a consultant-level clinician before informing protocol changes. Final recommendations are the responsibility of the reviewing clinician and the approving MDT.
+
+**Transparency:** Each review document includes a transparency disclaimer (section 6) disclosing AI involvement, the clinician responsible for appraisal, and the scope of AI contribution.
+
+**Reference integrity:** DOIs and article metadata are retrieved programmatically from PubMed and verified against source records. The system is instructed never to fabricate or reconstruct identifiers from memory.
+
+**Traceability:** Each review document includes an AI system metadata line recording the skill version, model identifier, and review date. A local evaluation register (`reviews/evaluation_register.csv`, gitignored) logs review outcomes and recommendation counts for ongoing quality monitoring.
 
 ## Clinical Content Rules
 

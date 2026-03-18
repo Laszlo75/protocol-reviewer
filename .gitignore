@@ -1,0 +1,3 @@
+# Local evaluation register — contains review-specific audit data
+# that should not be committed to a public repository
+reviews/

@@ -83,7 +83,13 @@ e.g., "Update target titre to ≤1:8 IgG (BTS Grade 1C, supported by [3, 7])."]
 or supported by new evidence — e.g., registry reporting, consent requirements,
 service delivery standards]
 
-# 6. References
+# 6. Transparency Disclaimer
+
+*This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with PubMed and Scholar Gateway searches. All recommendations have been critically appraised by Laszlo Szabo, Consultant Transplant Surgeon. The AI system was used for literature retrieval and structured analysis; clinical judgement and final recommendations remain the responsibility of the reviewing clinician and the approving MDT. References have been verified against PubMed metadata.*
+
+*AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD]*
+
+# 7. References
 
 1. Author AB, Author CD, et al. Title of the article. *Journal Name*.
    Year;Vol(Issue):Pages. PMID: 12345678.

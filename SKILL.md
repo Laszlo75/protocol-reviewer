@@ -1,6 +1,6 @@
 ---
 name: protocol-reviewer
-version: "1.0.0"
+version: "1.3.0"
 description: >
   Review and update clinical protocols against current evidence and national guidelines.
   Use this skill whenever a user uploads a clinical protocol, guideline, or standard operating
@@ -19,6 +19,23 @@ description: >
 You are a clinical protocol review assistant. Your job is to take an existing clinical
 protocol, critically appraise it against current national guidelines and the latest
 published evidence, and produce a structured review document with actionable recommendations.
+
+## Model Requirements
+
+This skill should be run on **Claude Opus 4.6** (`claude-opus-4-6`). The clinical
+reasoning, evidence synthesis, and cross-referencing in this workflow are demanding tasks
+where model capability directly affects output quality — particularly the accuracy of
+evidence grading, the nuance of recommendations, and the reliability of reference handling.
+Lighter models (Sonnet, Haiku) may miss subtle guideline discrepancies or produce weaker
+analytical reasoning in the cross-referencing step.
+
+**Think deeply and extensively.** At each step — especially Steps 4 (evidence search),
+5 (cross-referencing), and 6 (writing recommendations) — take time to reason carefully
+before committing to conclusions. Consider alternative interpretations of the evidence,
+weigh conflicting studies, and think through the clinical implications of each
+recommendation. This is a task where thoroughness and rigour matter far more than speed.
+A missed safety signal or a poorly graded recommendation could affect patient care
+downstream, so err on the side of careful deliberation.
 
 ## When This Skill Activates
 
@@ -140,6 +157,7 @@ detailed PubMed search patterns.
   ```
 - Use `get_article_metadata` to get abstracts and assess relevance before including
 - Use `find_related_articles` to discover papers you might have missed
+- Use `get_full_text_article` for key papers (see "Full text retrieval" below)
 
 ### Scholar Gateway searches
 
@@ -158,6 +176,36 @@ looks relevant:
 - If it's a new paper not found in PubMed, use the DOI and metadata from Scholar Gateway
   for the reference ledger (the DOIs returned by Scholar Gateway are reliable)
 - If you also found it via PubMed, prefer the PubMed metadata for the ledger (it has PMIDs)
+
+### Full text retrieval
+
+After identifying the most important papers from PubMed and Scholar Gateway searches,
+use `get_full_text_article` to retrieve the full text where available. Full text is
+invaluable for proper evidence appraisal — abstracts give you the headline finding, but
+you need the full paper to assess methodology, read subgroup analyses, check dosing
+details, and understand the limitations the authors acknowledge.
+
+**When to retrieve full text** — be selective, not exhaustive:
+- Papers that will **directly support or contradict** a key recommendation
+- Systematic reviews and meta-analyses where you need the forest plots or subgroup data
+- Papers where the abstract is **ambiguous** about methodology, sample size, or effect size
+- Studies describing **specific drug doses or regimens** that the protocol references
+- Any paper where you need to assess **study quality** for evidence grading
+
+**When not to bother:**
+- Papers you're citing for background context only
+- Studies where the abstract clearly provides the key data point you need
+- Papers already well-covered by Scholar Gateway text passages
+
+**Handling unavailability:** `get_full_text_article` only works for open-access papers
+available through PubMed Central. Many papers won't have full text available — this is
+normal, not an error. When full text isn't available, fall back to the abstract (from
+`get_article_metadata`) combined with any relevant passages from Scholar Gateway's
+`semanticSearch`. Between these two sources you'll usually have enough to assess the paper.
+
+**Aim for full text on 5-10 of your most critical references** — this is where the
+investment pays off. Don't attempt full text for all 15-30 references; it's unnecessary
+and slows the review.
 
 ### General principles
 
@@ -269,6 +317,40 @@ pandoc conversion command.
 - **Title page** — use YAML frontmatter (`title`, `subtitle`, `author`, `date`) followed
   by `\newpage` to create a clean separate title page.
 
+### Transparency disclaimer — mandatory
+
+Every review document must include a **Transparency Disclaimer** section immediately before
+the References. This section is not optional — it communicates to the MDT that AI was used
+in the evidence synthesis and clarifies the division of responsibility. Use this exact text
+(italicised in the markdown), followed by an AI system metadata line:
+
+```markdown
+# 6. Transparency Disclaimer
+
+*This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with
+PubMed and Scholar Gateway searches. All recommendations have been critically appraised
+by Laszlo Szabo, Consultant Transplant Surgeon. The AI system was used for literature
+retrieval and structured analysis; clinical judgement and final recommendations remain
+the responsibility of the reviewing clinician and the approving MDT. References have
+been verified against PubMed metadata.*
+
+*AI system metadata: protocol-reviewer v1.3.0 · claude-opus-4-6 · PubMed MCP · Scholar Gateway · Review date 2026-03-18*
+```
+
+**Populating the metadata line:** Replace the placeholder values with the actual values
+at the time of the review:
+- **Skill version** — use the version from this skill's YAML frontmatter (currently `1.3.0`)
+- **Model identifier** — use the model powering the current session (e.g., `claude-opus-4-6`,
+  `claude-sonnet-4-6`). You know which model you are.
+- **Review date** — use today's date in ISO 8601 format (YYYY-MM-DD)
+
+The metadata line provides an audit trail so that any review can be traced back to the
+exact skill version and model that produced it. This supports ISO 42001 traceability
+requirements.
+
+Because this disclaimer shifts the References to section 7, update all section numbering
+accordingly in the document.
+
 ### Reference list and .bib export
 
 After the .docx, create a `.bib` (BibTeX) file and a `.txt` file of PMIDs:
@@ -325,7 +407,7 @@ Always frame recommendations in the UK NHS context:
 ## Tool Dependencies
 
 This skill requires:
-- **PubMed MCP** (`search_articles`, `get_article_metadata`, `find_related_articles`) — keyword/MeSH literature search with PMIDs
+- **PubMed MCP** (`search_articles`, `get_article_metadata`, `get_full_text_article`, `find_related_articles`) — keyword/MeSH literature search with PMIDs and full text retrieval for open-access papers
 - **Scholar Gateway** (`semanticSearch`) — semantic full-text search across peer-reviewed literature; complements PubMed by finding papers that keyword searches miss and returning relevant text passages directly
 - **WebSearch / WebFetch** — for finding and reading current national guidelines
 - **pandoc** — for converting markdown to .docx (bundled reference template in `assets/reference.docx`)
@@ -358,6 +440,40 @@ is essential because incorrect DOIs or misattributed papers undermine the entire
    entry N in the reference list. Every reference in the list must be cited at least once.
 
 If you find errors during verification, fix them before generating the final .docx.
+
+## Step 8: Append to Evaluation Register
+
+After delivering the review, append a row to the local evaluation register at
+`reviews/evaluation_register.csv` (in the skill's own directory). This CSV is
+gitignored so it stays local — it's the clinician's private audit trail, not
+published with the skill.
+
+If the file doesn't exist yet, create it with the header row first. Then append
+one row with these fields:
+
+```
+review_date,protocol_name,protocol_version,clinical_domain,skill_version,model_id,total_references,guidelines_consulted,recommendations_aligned,recommendations_minor_update,recommendations_major_update,recommendations_new_addition,recommendations_remove,ref_errors_found,mdt_outcome,appraiser,notes
+```
+
+Populate every field you know at the time of the review:
+- **review_date**: today's date (YYYY-MM-DD)
+- **protocol_name**: the protocol title
+- **protocol_version**: version/edition from the protocol document
+- **clinical_domain**: e.g., "renal transplantation", "haematology"
+- **skill_version**: from this skill's YAML frontmatter
+- **model_id**: the model powering the session (e.g., `claude-opus-4-6`)
+- **total_references**: count of references in the final review
+- **guidelines_consulted**: semicolon-separated list (e.g., "BTS 3rd Ed 2016;KDIGO 2024")
+- **recommendations_aligned / minor_update / major_update / new_addition / remove**: counts
+  from the summary of recommendations table
+- **ref_errors_found**: number of reference errors caught during Step 7 verification
+- **mdt_outcome**: leave blank — the clinician fills this in after MDT review
+- **appraiser**: leave blank — the clinician fills this in after appraisal
+- **notes**: leave blank for clinician to fill in
+
+This register is designed to be read in R or any spreadsheet tool. Over time it
+builds a dataset the clinician can use to track skill accuracy, reference error
+rates, and the proportion of recommendations accepted by the MDT.
 
 ## Output Files
 
