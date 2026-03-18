@@ -54,11 +54,19 @@ This skill requires the **Claude Desktop app** (macOS or Windows).
 
 ### After installation
 
-Enable the required MCP connectors in Claude Desktop (Settings → Connectors):
-- **PubMed** — for literature search, article metadata, and full text retrieval
-- **Scholar Gateway** — for semantic search across peer-reviewed literature
+1. **Set up your reviewer profile** — copy the example config and fill in your details:
+   ```bash
+   cp reviewer_config.example.yaml reviewer_config.yaml
+   ```
+   Edit `reviewer_config.yaml` with your name, professional title, and optionally your institution. This is used in the transparency disclaimer of every review document. The file is gitignored so your personal details stay local.
 
-The skill also uses **WebSearch** (enabled by default) for national guideline lookups, and **pandoc** must be installed on your machine for the markdown-to-docx conversion (`brew install pandoc` on macOS or `sudo apt install pandoc` on Linux).
+2. **Enable the required MCP connectors** in Claude Desktop (Settings → Connectors):
+   - **PubMed** — for literature search, article metadata, and full text retrieval
+   - **Scholar Gateway** — for semantic search across peer-reviewed literature
+
+3. **Install pandoc** for markdown-to-docx conversion: `brew install pandoc` on macOS or `sudo apt install pandoc` on Linux.
+
+The skill also uses **WebSearch** (enabled by default) for national guideline lookups.
 
 ## Example Prompts
 

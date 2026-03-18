@@ -85,7 +85,7 @@ service delivery standards]
 
 # 6. Transparency Disclaimer
 
-*This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with PubMed and Scholar Gateway searches. All recommendations have been critically appraised by Laszlo Szabo, Consultant Transplant Surgeon. The AI system was used for literature retrieval and structured analysis; clinical judgement and final recommendations remain the responsibility of the reviewing clinician and the approving MDT. References have been verified against PubMed metadata.*
+*This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with PubMed and Scholar Gateway searches. All recommendations have been critically appraised by [reviewer name], [reviewer title]. The AI system was used for literature retrieval and structured analysis; clinical judgement and final recommendations remain the responsibility of the reviewing clinician and the approving MDT. References have been verified against PubMed metadata.*
 
 *AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD]*
 

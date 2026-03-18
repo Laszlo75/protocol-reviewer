@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-03-18
+
+### Added
+
+- `reviewer_config.example.yaml` — reviewer profile template for name, title, and institution
+- Reviewer Configuration section in SKILL.md: reads `reviewer_config.yaml` at start of each review
+- Setup step in README for copying and filling in reviewer config
+
+### Changed
+
+- Transparency disclaimer now uses reviewer name/title from config file instead of hardcoded values
+- Disclaimer template in `document_template.md` uses `[reviewer name], [reviewer title]` placeholders
+- Skill asks user for name and title if config file is missing (graceful fallback)
+
 ## [1.3.0] - 2026-03-18
 
 ### Added

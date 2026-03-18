@@ -1,6 +1,6 @@
 ---
 name: protocol-reviewer
-version: "1.3.0"
+version: "1.4.0"
 description: >
   Review and update clinical protocols against current evidence and national guidelines.
   Use this skill whenever a user uploads a clinical protocol, guideline, or standard operating
@@ -36,6 +36,18 @@ weigh conflicting studies, and think through the clinical implications of each
 recommendation. This is a task where thoroughness and rigour matter far more than speed.
 A missed safety signal or a poorly graded recommendation could affect patient care
 downstream, so err on the side of careful deliberation.
+
+## Reviewer Configuration
+
+Before starting a review, read `reviewer_config.yaml` from the skill's directory. This
+file contains the reviewing clinician's name, title, and optionally their institution.
+These details are inserted into the transparency disclaimer in every review document.
+
+If `reviewer_config.yaml` does not exist, ask the user for their name and professional
+title before proceeding. This information is needed for the transparency disclaimer —
+the review cannot be finalised without it.
+
+See `reviewer_config.example.yaml` for the expected format.
 
 ## When This Skill Activates
 
@@ -329,20 +341,20 @@ in the evidence synthesis and clarifies the division of responsibility. Use this
 
 *This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with
 PubMed and Scholar Gateway searches. All recommendations have been critically appraised
-by Laszlo Szabo, Consultant Transplant Surgeon. The AI system was used for literature
-retrieval and structured analysis; clinical judgement and final recommendations remain
-the responsibility of the reviewing clinician and the approving MDT. References have
-been verified against PubMed metadata.*
+by [reviewer name], [reviewer title]. The AI system was used for literature retrieval
+and structured analysis; clinical judgement and final recommendations remain the
+responsibility of the reviewing clinician and the approving MDT. References have been
+verified against PubMed metadata.*
 
-*AI system metadata: protocol-reviewer v1.3.0 · claude-opus-4-6 · PubMed MCP · Scholar Gateway · Review date 2026-03-18*
+*AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD]*
 ```
 
-**Populating the metadata line:** Replace the placeholder values with the actual values
-at the time of the review:
-- **Skill version** — use the version from this skill's YAML frontmatter (currently `1.3.0`)
-- **Model identifier** — use the model powering the current session (e.g., `claude-opus-4-6`,
+**Populating the disclaimer:** Replace all placeholder values at the time of the review:
+- **Reviewer name and title** — from `reviewer_config.yaml` (or as provided by the user)
+- **Skill version** — from this skill's YAML frontmatter (currently `1.4.0`)
+- **Model identifier** — the model powering the current session (e.g., `claude-opus-4-6`,
   `claude-sonnet-4-6`). You know which model you are.
-- **Review date** — use today's date in ISO 8601 format (YYYY-MM-DD)
+- **Review date** — today's date in ISO 8601 format (YYYY-MM-DD)
 
 The metadata line provides an audit trail so that any review can be traced back to the
 exact skill version and model that produced it. This supports ISO 42001 traceability

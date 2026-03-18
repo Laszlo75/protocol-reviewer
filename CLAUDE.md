@@ -13,6 +13,7 @@ A Claude Code skill (custom prompt) that reviews clinical protocols against curr
 - **references/document_template.md** — Markdown template and pandoc conversion instructions for the review document.
 - **references/pubmed_strategy.md** — PubMed search construction patterns and quality assessment heuristics.
 - **evals/evals.json** — Test scenarios for the skill (ABOi transplant, perioperative anticoagulation, CMV prophylaxis).
+- **reviewer_config.example.yaml** — Example reviewer config. User copies to `reviewer_config.yaml` (gitignored) with their name, title, and institution.
 - **reviews/** — Local evaluation register (gitignored). Contains `evaluation_register.csv` for tracking review outcomes.
 
 ## Key Design Decisions
