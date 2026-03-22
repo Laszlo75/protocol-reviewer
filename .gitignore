@@ -2,9 +2,6 @@
 # that should not be committed to a public repository
 reviews/
 
-# Reviewer config — contains personal details
-reviewer_config.yaml
-
 # Build artifacts
 *.skill
 

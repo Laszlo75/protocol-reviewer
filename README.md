@@ -47,24 +47,18 @@ This skill requires the **Claude Desktop app** (macOS or Windows).
 
 1. Download or clone this repository:
    ```bash
-   git clone https://github.com/<your-username>/protocol-reviewer.git
+   git clone https://github.com/Laszlo75/protocol-reviewer.git
    ```
    Or download as a ZIP from the green **Code** button above and extract it.
 2. In Claude Desktop, open **Settings → Skills** and add the path to the extracted `protocol-reviewer` folder
 
 ### After installation
 
-1. **Set up your reviewer profile** — copy the example config and fill in your details:
-   ```bash
-   cp reviewer_config.example.yaml reviewer_config.yaml
-   ```
-   Edit `reviewer_config.yaml` with your name, professional title, and optionally your institution. This is used in the transparency disclaimer of every review document. The file is gitignored so your personal details stay local.
-
-2. **Enable the required MCP connectors** in Claude Desktop (Settings → Connectors):
+1. **Enable the required MCP connectors** in Claude Desktop (Settings → Connectors):
    - **PubMed** — for literature search, article metadata, and full text retrieval
    - **Scholar Gateway** — for semantic search across peer-reviewed literature
 
-3. **Install pandoc** for markdown-to-docx conversion: `brew install pandoc` on macOS or `sudo apt install pandoc` on Linux.
+2. **Install pandoc** for markdown-to-docx conversion: `brew install pandoc` on macOS or `sudo apt install pandoc` on Linux.
 
 The skill also uses **WebSearch** (enabled by default) for national guideline lookups.
 
@@ -78,7 +72,7 @@ The skill also uses **WebSearch** (enabled by default) for national guideline lo
 
 This tool uses AI-assisted evidence synthesis to support clinical protocol review. AI outputs are advisory only and must be critically appraised by a consultant-level clinician before informing protocol changes. The AI system is Claude (Anthropic), accessed via Claude Desktop with PubMed and Scholar Gateway integrations.
 
-Every review document includes a transparency disclaimer (section 6) with an AI system metadata line recording the skill version, model identifier, and review date. References are retrieved programmatically from PubMed and verified against source metadata — the system never fabricates identifiers.
+Every review document is generated as an explicit draft with a "DRAFT — NOT FOR CLINICAL USE" callout. The transparency disclaimer (section 6) includes a "Reviewed and approved by" placeholder — the clinician fills this in after reviewing and approving the document. References are retrieved programmatically from PubMed and verified against source metadata — the system never fabricates identifiers.
 
 A local evaluation register (`reviews/evaluation_register.csv`, gitignored) logs each review's outcomes and recommendation counts for ongoing quality monitoring and audit. This file stays on your machine and is never pushed to the repository.
 

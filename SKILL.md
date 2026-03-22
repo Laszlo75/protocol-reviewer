@@ -37,18 +37,6 @@ recommendation. This is a task where thoroughness and rigour matter far more tha
 A missed safety signal or a poorly graded recommendation could affect patient care
 downstream, so err on the side of careful deliberation.
 
-## Reviewer Configuration
-
-Before starting a review, read `reviewer_config.yaml` from the skill's directory. This
-file contains the reviewing clinician's name, title, and optionally their institution.
-These details are inserted into the transparency disclaimer in every review document.
-
-If `reviewer_config.yaml` does not exist, ask the user for their name and professional
-title before proceeding. This information is needed for the transparency disclaimer —
-the review cannot be finalised without it.
-
-See `reviewer_config.example.yaml` for the expected format.
-
 ## When This Skill Activates
 
 The user has uploaded (or pointed you to) a clinical protocol document — typically a PDF
@@ -329,32 +317,57 @@ pandoc conversion command.
 - **Title page** — use YAML frontmatter (`title`, `subtitle`, `author`, `date`) followed
   by `\newpage` to create a clean separate title page.
 
+### Draft callout — mandatory
+
+Every review document must include a **draft callout** immediately after `\newpage` and
+before `# 1. Executive Summary`. This is a prominent warning that the document is an
+unverified AI-generated draft. Use this exact text:
+
+```markdown
+> **DRAFT — NOT FOR CLINICAL USE**
+>
+> This is an AI-generated draft document. It has not been verified by a clinician
+> and must not be circulated or used for clinical decision-making until it has been
+> reviewed, cross-checked, and approved by a qualified professional.
+>
+> **To approve this document:** (1) review all recommendations and references,
+> (2) delete this callout, (3) complete the "Reviewed and approved by" field in
+> the Transparency Disclaimer (section 6).
+```
+
+The clinician deletes this callout after reviewing and approving the document. Until
+then, the document is clearly marked as a draft.
+
 ### Transparency disclaimer — mandatory
 
 Every review document must include a **Transparency Disclaimer** section immediately before
 the References. This section is not optional — it communicates to the MDT that AI was used
 in the evidence synthesis and clarifies the division of responsibility. Use this exact text
-(italicised in the markdown), followed by an AI system metadata line:
+(italicised in the markdown), followed by a "Reviewed and approved by" line (left blank for
+the clinician to complete after review) and an AI system metadata line:
 
 ```markdown
 # 6. Transparency Disclaimer
 
 *This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with
-PubMed and Scholar Gateway searches. All recommendations have been critically appraised
-by [reviewer name], [reviewer title]. The AI system was used for literature retrieval
+PubMed and Scholar Gateway searches. The AI system was used for literature retrieval
 and structured analysis; clinical judgement and final recommendations remain the
 responsibility of the reviewing clinician and the approving MDT. References have been
 verified against PubMed metadata.*
 
-*AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD]*
+**Reviewed and approved by:** ______________________ *(name, title, and institution)*
+
+*AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD] · [github.com/Laszlo75/protocol-reviewer](https://github.com/Laszlo75/protocol-reviewer)*
 ```
 
-**Populating the disclaimer:** Replace all placeholder values at the time of the review:
-- **Reviewer name and title** — from `reviewer_config.yaml` (or as provided by the user)
-- **Skill version** — from this skill's YAML frontmatter (currently `1.4.0`)
+**Populating the metadata line:** Replace the placeholder values at the time of the review:
+- **Skill version** — use the version from this skill's YAML frontmatter
 - **Model identifier** — the model powering the current session (e.g., `claude-opus-4-6`,
   `claude-sonnet-4-6`). You know which model you are.
 - **Review date** — today's date in ISO 8601 format (YYYY-MM-DD)
+
+The "Reviewed and approved by" line is left blank — the clinician fills this in after
+reviewing the document. Do not pre-fill it with any name.
 
 The metadata line provides an audit trail so that any review can be traced back to the
 exact skill version and model that produced it. This supports ISO 42001 traceability

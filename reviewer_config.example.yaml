@@ -1,8 +1,0 @@
-# Reviewer Configuration
-# Copy this file to reviewer_config.yaml and fill in your details.
-# reviewer_config.yaml is gitignored — your personal details stay local.
-
-reviewer:
-  name: "Your Name"
-  title: "Your Professional Title"
-  institution: "Your Institution"  # optional, included in disclaimer if provided

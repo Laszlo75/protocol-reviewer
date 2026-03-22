@@ -32,6 +32,16 @@ date: "[Month Year]"
 
 \newpage
 
+> **DRAFT — NOT FOR CLINICAL USE**
+>
+> This is an AI-generated draft document. It has not been verified by a clinician
+> and must not be circulated or used for clinical decision-making until it has been
+> reviewed, cross-checked, and approved by a qualified professional.
+>
+> **To approve this document:** (1) review all recommendations and references,
+> (2) delete this callout, (3) complete the "Reviewed and approved by" field in
+> the Transparency Disclaimer (section 6).
+
 # 1. Executive Summary
 
 [300-500 words covering: what was reviewed, key findings by classification,
@@ -85,9 +95,11 @@ service delivery standards]
 
 # 6. Transparency Disclaimer
 
-*This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with PubMed and Scholar Gateway searches. All recommendations have been critically appraised by [reviewer name], [reviewer title]. The AI system was used for literature retrieval and structured analysis; clinical judgement and final recommendations remain the responsibility of the reviewing clinician and the approving MDT. References have been verified against PubMed metadata.*
+*This review was produced using AI-assisted evidence synthesis (Claude, Anthropic) with PubMed and Scholar Gateway searches. The AI system was used for literature retrieval and structured analysis; clinical judgement and final recommendations remain the responsibility of the reviewing clinician and the approving MDT. References have been verified against PubMed metadata.*
 
-*AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD]*
+**Reviewed and approved by:** ______________________ *(name, title, and institution)*
+
+*AI system metadata: protocol-reviewer v[skill version] · [model identifier] · PubMed MCP · Scholar Gateway · Review date [YYYY-MM-DD] · [github.com/Laszlo75/protocol-reviewer](https://github.com/Laszlo75/protocol-reviewer)*
 
 # 7. References
 

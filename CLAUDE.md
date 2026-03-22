@@ -13,7 +13,6 @@ A Claude Code skill (custom prompt) that reviews clinical protocols against curr
 - **references/document_template.md** — Markdown template and pandoc conversion instructions for the review document.
 - **references/pubmed_strategy.md** — PubMed search construction patterns and quality assessment heuristics.
 - **evals/evals.json** — Test scenarios for the skill (ABOi transplant, perioperative anticoagulation, CMV prophylaxis).
-- **reviewer_config.example.yaml** — Example reviewer config. User copies to `reviewer_config.yaml` (gitignored) with their name, title, and institution.
 - **reviews/** — Local evaluation register (gitignored). Contains `evaluation_register.csv` for tracking review outcomes.
 
 ## Key Design Decisions
@@ -54,7 +53,7 @@ pandoc "[Protocol_Name]_Review_[Year].md" \
 
 **Human oversight:** All AI-generated outputs are advisory only. Every review must be critically appraised by a consultant-level clinician before informing protocol changes. Final recommendations are the responsibility of the reviewing clinician and the approving MDT.
 
-**Transparency:** Each review document includes a transparency disclaimer (section 6) disclosing AI involvement, the clinician responsible for appraisal, and the scope of AI contribution.
+**Transparency:** Each review document is generated as an explicit draft with a prominent "DRAFT — NOT FOR CLINICAL USE" callout. The transparency disclaimer (section 6) discloses AI involvement and includes a "Reviewed and approved by" placeholder for the clinician to complete after appraisal.
 
 **Reference integrity:** DOIs and article metadata are retrieved programmatically from PubMed and verified against source records. The system is instructed never to fabricate or reconstruct identifiers from memory.
 

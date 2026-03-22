@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Removed
+
+- `reviewer_config.example.yaml` and all references to `reviewer_config.yaml`
+- Reviewer Configuration section from SKILL.md
+- Reviewer config setup step from README installation instructions
+
+### Added
+
+- Draft callout banner at the top of every review document (after title page, before Executive Summary)
+- "Reviewed and approved by" placeholder in the Transparency Disclaimer for clinician sign-off
+
+### Changed
+
+- Transparency disclaimer no longer claims clinician appraisal at generation time — honestly reflects draft status
+- GitHub repo URL hardcoded as `https://github.com/Laszlo75/protocol-reviewer`
+
 ## [1.4.0] - 2026-03-18
 
 ### Added
