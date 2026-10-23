@@ -1,5 +1,8 @@
 # Clinical Protocol Reviewer
 
+> [!IMPORTANT]
+> This skill has moved. It is now `protocol-reviewer` in the **clinical-evidence** plugin of the [clinical-research-toolkit](https://github.com/Laszlo75/clinical-research-toolkit). Install it in Claude Code with `/plugin marketplace add Laszlo75/clinical-research-toolkit`, then `/plugin install clinical-evidence@clinical-research`. This repository is archived and no longer maintained.
+
 A Claude skill that reviews clinical protocols against current national guidelines and published evidence, producing a structured Word document with evidence-graded recommendations.
 
 ## What It Does
